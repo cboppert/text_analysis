@@ -25,3 +25,10 @@ If there is only one date assume a duration of 1. If there are none then 0. If t
 ### Gender
 Look for pronouns such as he and she and output male, female or unknown.
 Unknown when both are found, and unknown when none are found.
+
+## Running the tests
+The tests exist in the test directory and must be run using make or gmake (on OS X)
+
+   gmake ct
+
+Running with ct_run will not start the application and the tests will fail.
