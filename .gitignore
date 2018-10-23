@@ -1,0 +1,16 @@
+_*
+.eunit
+*.o
+*.beam
+*.plt
+*.swp
+*.swo
+.erlang.cookie
+ebin
+erl_crash.dump
+.idea
+*.iml
+_rel
+.erlang.mk
+deps
+logs
