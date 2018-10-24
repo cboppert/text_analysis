@@ -1,4 +1,4 @@
--module(gender_analysis).
+-module(sentiment_analysis).
 -behavior(gen_server).
 % gen_server
 -export([init/1, handle_call/3, start_link/0]).
