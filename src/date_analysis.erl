@@ -13,7 +13,8 @@
 analyze(Text) ->
    gen_server:call(?MODULE, {analyze, Text}).
 
-handle_call({analyze, _Text}, _From, _State) -> true.
+handle_call({analyze, _Text}, _From, State) ->
+   {reply, true, State}.
 
 start_link() ->
     gen_server:start_link({local, ?MODULE}, ?MODULE, none, []).
