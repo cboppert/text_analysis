@@ -1,5 +1,5 @@
--module(text_analysis_sup).
--behaviour(supervisor).
+-module(analysis_sup).
+-behavior(supervisor).
 
 -export([start_link/0]).
 -export([init/1]).
@@ -9,10 +9,10 @@ start_link() ->
 
 init([]) ->
    RestartStrategy = {one_for_one, 1, 5},
-   Procs = [{analysis_sup_s,
-             {analysis_sup, start_link, []},
+   Procs = [{gender_analysis_p,
+             {gender_analysis, start_link, []},
             permanent,
-            1000,
-            supervisor,
-            [analysis_sup]}],
+            brutal_kill,
+            worker,
+            [gender_analysis]}],
    {ok, {RestartStrategy, Procs}}.

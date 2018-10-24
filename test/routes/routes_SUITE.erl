@@ -26,14 +26,10 @@ groups() -> [{routes_group,
 % init and teardown       %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 init_per_suite(Config) ->
-   ct:pal("Config IPG: ~p~n", [Config]),
-   ct:pal("Host: ~p~n", [?Host]),
    {ok, AppStartList} = start([text_analysis]),
-   ct:pal("AppStartList: ~p~n", [AppStartList]),
    [{app_start_list, AppStartList}|Config].
 
 end_per_suite(Config) ->
-   ct:pal("Config EPG: ~p~n", [Config]),
    stop(?config(app_start_list, Config)),
    Config.
 

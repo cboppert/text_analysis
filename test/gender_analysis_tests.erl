@@ -16,8 +16,17 @@ unknown_with_pronouns_test(Text) ->
 gender_analysis_test_() ->
    {"Tests the gender analysis module for male, female, unknown
    without pronouns, and unknown with pronouns",
-      {inparallel,
-         [male_test("He went to the store"),
-          female_test("She gave him the list"),
-          unknown_test("And the rest is history"),
-          unknown_with_pronouns_test("He gave her the heebie jeebies. She ran away.")]}}.
+    {foreach,
+     fun start/0,
+     fun stop/1,
+     [male_test("He went to the store"),
+      female_test("She gave him the list"),
+      unknown_test("And the rest is history"),
+      unknown_with_pronouns_test("Now he is married and she is the one.")]}}.
+
+start() ->
+   gender_analysis:start_link(),
+   ok.
+
+stop(_) ->
+   ok.
