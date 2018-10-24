@@ -15,36 +15,41 @@ analyze(Text) ->
 
 % Returns [] or list of date strings
 get_dates(Text) ->
-   io:format("~p~n", [re:run(Text, ?DatePattern, [global, {capture, first}])]),
    case re:run(Text, ?DatePattern, [global, {capture, first}]) of
       nomatch -> [];
       {match, Dates} -> lists:map(fun([{Index, Length}|[]]) ->
                                         edate:string_to_date(
-                                           string:slice(Text, Index, Length))
+                                           binary_to_list(string:slice(Text, Index, Length)))
                                   end, Dates)
    end.
 
 min_and_max_dates([]) -> #{min => unknown, max => unknown};
 min_and_max_dates([Date]) -> #{min => Date, max => unknown};
-min_and_max_dates(Dates) -> min_and_max_dates(Dates, #{}).
+min_and_max_dates(Dates) ->
+   io:format("Dates: ~p~n", [Dates]),
+   min_and_max_dates(Dates, #{}).
 
 min_and_max_dates([], Map) -> Map;
 min_and_max_dates([Date|Rest], Map) when map_size(Map) == 0 ->
    min_and_max_dates(Rest, #{min => Date});
+
 min_and_max_dates([Date|Rest], #{min := Min} = Map) when map_size(Map) == 1 ->
    case edate:subtract(Date, Min) of
       Diff when Diff > 0 -> min_and_max_dates(Rest,
                                               #{min => Min, max => Date});
       _Diff -> min_and_max_dates(Rest, #{min => Date, max => Min})
    end;
+
 min_and_max_dates([Date|Rest], #{min := Min, max := Max}) ->
    SubtractMin = edate:subtract(Min, Date),
    SubtractMax = edate:subtract(Date, Max),
+   io:format("Min: ~p~n Max: ~p~n Date: ~p~n SubMin: ~p~n SubMax: ~p~n",
+             [Min, Max, Date, SubtractMin, SubtractMax]),
    if
       SubtractMin > 0 -> min_and_max_dates(Rest,
                                            #{min => Date, max => Max});
       SubtractMax > 0 -> min_and_max_dates(Rest,
-                                           #{min => Min, max => Max});
+                                           #{min => Min, max => Date});
       true -> min_and_max_dates(Rest, #{min => Min, max => Max})
    end.
 
