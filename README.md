@@ -1,4 +1,4 @@
-# Text Analysis with JavaScript for COTA Healthcare
+# Text Analysis with Erlang
 
 ## Goals
 
