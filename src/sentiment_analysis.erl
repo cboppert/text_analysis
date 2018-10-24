@@ -7,11 +7,32 @@
 % my module
 -export([analyze/1]).
 
+-define(PositivePattern, "\\b(happy|glad|jubilant|satisfied)\\b").
+-define(NegativePattern, "\\b(sad|dissapointed|angry|frustrated)\\b").
+
 analyze(Text) ->
    gen_server:call(?MODULE, {analyze, Text}).
 
-handle_call({analyze, _Text}, _From, State) ->
-   {reply, true, State}.
+check_for_sentiment(Text, Pattern) ->
+   case re:run(Text, Pattern) of
+      {match, _} -> true;
+      nomatch -> false
+   end.
+
+check_if_positive(Text) ->
+   check_for_sentiment(Text, ?PositivePattern).
+
+check_if_negative(Text) ->
+   check_for_sentiment(Text, ?NegativePattern).
+
+handle_call({analyze, Text}, _From, State) ->
+   Reply = case {check_if_positive(Text), check_if_negative(Text)} of
+              {true, true} -> mixed;
+              {true, false} -> positive;
+              {false, true} -> negative;
+              {false, false} -> unknown
+   end,
+   {reply, Reply, State}.
 
 start_link() ->
     gen_server:start_link({local, ?MODULE}, ?MODULE, none, []).
