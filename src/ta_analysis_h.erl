@@ -7,11 +7,13 @@
 
 -export([to_json/2]).
 
+% TODO: Use types
 -type analysis() :: #{
         gender := male | female | unknown,
         duration := 0 | pos_integer(),
         sentiment := positive | negative | mixed
        }.
+-define(ParagraphKey, <<"paragraph">>).
 
 -export_type([analysis/0]).
 
@@ -33,9 +35,12 @@ analysis_map(Gender, Duration, Sentiment) ->
    #{gender => Gender, duration => Duration, sentiment => Sentiment}.
 
 to_json(Req, State) ->
-   Gender = <<"male">>,
+   {ok, Data, _Req} = cowboy_req:read_body(Req),
+   BodyMap = jsx:decode(Data, [return_maps]),
+   Text = maps:get(?ParagraphKey, BodyMap),
+   Gender = gender_analysis:analyze(Text),
    Duration = 12,
-   Sentiment = <<"positive">>,
+   Sentiment = gender_analysis:analyze(Text),
    AnalysisMap = analysis_map(Gender, Duration, Sentiment),
    Json = jsx:encode(AnalysisMap),
    {ok, Res} = cowboy_req:reply(200, #{
