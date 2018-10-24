@@ -14,5 +14,11 @@ init([]) ->
             permanent,
             brutal_kill,
             worker,
-            [gender_analysis]}],
+            [gender_analysis]},
+            {sentiment_analysis_p,
+             {sentiment_analysis, start_link, []},
+            permanent,
+            brutal_kill,
+            worker,
+            [sentiment_analysis]}],
    {ok, {RestartStrategy, Procs}}.
