@@ -5,7 +5,8 @@
 -export([stop/1]).
 
 start(_Type, _Args) ->
-   Dispatch = cowboy_router:compile([{'_', [{"/health", ta_health_h, []}]}]),
+   Dispatch = cowboy_router:compile([{'_', [{"/health", ta_health_h, []},
+                                            {"/analysis", ta_analysis_h, []}]}]),
    {ok, _} = cowboy:start_clear(ta_http_listener,
                                 [{port, 8090}],
                                 #{env => #{dispatch => Dispatch}}),

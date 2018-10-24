@@ -32,3 +32,9 @@ The tests exist in the test directory and must be run using make or gmake (on OS
    gmake ct
 
 Running with ct_run will not start the application and the tests will fail.
+
+Running with
+
+   gmake tests
+
+should run unit tests as well
