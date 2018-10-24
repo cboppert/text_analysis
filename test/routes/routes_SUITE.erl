@@ -52,7 +52,6 @@ health_test(_Config) ->
    %{ok, Response} = shotgun:get(?config(connection, Config), ?HealthCheckRoute),
    {ok, #{body := Body}} = shotgun:get(Conn, ?HealthCheckRoute),
    shotgun:close(Conn),
-   %ct:pal("Response One ~p~n", [Body]),
    Body = <<"I'm alive">>.
 
 analysis_test_paragraph_one(_Config) ->
@@ -66,7 +65,6 @@ analysis_test_paragraph_one(_Config) ->
                                  Body,
                                  #{}),
    shotgun:close(Conn),
-   %ct:pal("Response Two ~p~n", [ResponseBody]),
    ResponseBody = jsx:encode(#{gender => <<"male">>,
                               duration => 8,
                               sentiment => <<"mixed">>}).
@@ -81,7 +79,6 @@ analysis_test_paragraph_two(_Config) ->
                                  Body,
                                  #{}),
    shotgun:close(Conn),
-   %ct:pal("Response Three ~p~n", [ResponseBody]),
    ResponseBody = jsx:encode(#{gender => <<"female">>,
                                duration => 6857,
                                sentiment => <<"positive">>}).
