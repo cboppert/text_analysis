@@ -20,5 +20,11 @@ init([]) ->
             permanent,
             brutal_kill,
             worker,
-            [sentiment_analysis]}],
+            [sentiment_analysis]},
+            {date_analysis_p,
+             {date_analysis, start_link, []},
+            permanent,
+            brutal_kill,
+            worker,
+            [date_analysis]}],
    {ok, {RestartStrategy, Procs}}.

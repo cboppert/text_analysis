@@ -8,7 +8,7 @@
 -export([analyze/1]).
 
 -define(PositivePattern, "\\b(happy|glad|jubilant|satisfied)\\b").
--define(NegativePattern, "\\b(sad|dissapointed|angry|frustrated)\\b").
+-define(NegativePattern, "\\b(sad|disappointed|angry|frustrated)\\b").
 
 analyze(Text) ->
    gen_server:call(?MODULE, {analyze, Text}).
