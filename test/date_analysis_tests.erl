@@ -5,10 +5,10 @@ one_date_test(Text) ->
    ?_assertEqual(1, date_analysis:analyze(Text)).
 
 two_dates_test(Text) ->
-   ?_assertEqual(10, date_analysis:analyze(Text)).
+   ?_assertEqual(11, date_analysis:analyze(Text)).
 
 many_dates_test(Text) ->
-   ?_assertEqual(10, date_analysis:analyze(Text)).
+   ?_assertEqual(21, date_analysis:analyze(Text)).
 
 no_dates_test(Text) ->
    ?_assertEqual(unknown, date_analysis:analyze(Text)).
