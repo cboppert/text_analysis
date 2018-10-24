@@ -39,8 +39,8 @@ to_json(Req, State) ->
    BodyMap = jsx:decode(Data, [return_maps]),
    Text = maps:get(?ParagraphKey, BodyMap),
    Gender = gender_analysis:analyze(Text),
-   Duration = 12,
-   Sentiment = gender_analysis:analyze(Text),
+   Duration = date_analysis:analyze(Text),
+   Sentiment = sentiment_analysis:analyze(Text),
    AnalysisMap = analysis_map(Gender, Duration, Sentiment),
    Json = jsx:encode(AnalysisMap),
    {ok, Res} = cowboy_req:reply(200, #{
